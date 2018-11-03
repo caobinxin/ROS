@@ -29,7 +29,9 @@ public class MainActivity extends RosActivity {
     @Override
     protected void init(NodeMainExecutor nodeMainExecutor) {
         NodeConfiguration nodeConfiguration = NodeConfiguration.newPublic(getRosHostname());
-        nodeConfiguration.setMasterUri(getMasterUri());
+        nodeConfiguration.setMasterUri(getMasterUri());//设置master的地址
+
+        //启动一个测试节点
         nodeMainExecutor.execute(new NodeMain() {
             @Override
             public GraphName getDefaultNodeName() {
@@ -65,5 +67,18 @@ public class MainActivity extends RosActivity {
 
             }
         }, nodeConfiguration);
+
+        //启动另外一个节点
+        nodeMainExecutor.execute(OnePubNode.getInstance(), nodeConfiguration);
+
+        if(true){
+            //两个　configuration 都对
+            nodeMainExecutor.execute(OneSubNode.getInstance(), nodeConfiguration);
+        }else {
+            URI master = URI.create("http://192.168.1.195:11311");
+            final java.lang.String host = NetUtil.getWifiIpAddress();
+            NodeConfiguration configuration = NodeConfiguration.newPublic(host, master);
+            nodeMainExecutor.execute(OneSubNode.getInstance(), configuration);
+        }
     }
 }

@@ -22,6 +22,9 @@ android {
         exclude "META-INF/LICENSE.txt"
         exclude "META-INF/NOTICE.txt"
     }
+    sourceSets {
+        main { java.srcDirs = ['src/main/java', 'src/main/java/msg', 'src/main/java/node'] }
+    }
 }
 
 dependencies {
@@ -35,5 +38,6 @@ dependencies {
     compile 'org.ros.android_core:android_15:[0.2,0.3)'
     compile 'org.ros.rosjava_core:rosjava:[0.2,0.3)'
     compile 'org.ros.rosjava_bootstrap:message_generation:[0.2,0.3)'
+    compile 'org.ros.rosjava_core:rosjava_geometry:0.3.5'
     testCompile 'junit:junit:4.12'
 }
